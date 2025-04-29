@@ -1,5 +1,5 @@
 {
-  "name": "app-starter-project-with-webpack",
+  "name": "minitales-story",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -24,5 +24,9 @@
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0",
     "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "tiny-slider": "^2.9.4"
   }
 }

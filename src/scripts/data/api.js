@@ -1,4 +1,5 @@
 import CONFIG from "../config";
+import { getAccessToken } from "../utils/auth";
 const ENDPOINTS = {
   // ENDPOINT: `${BASE_URL}/your/endpoint/here`,
 
@@ -26,7 +27,7 @@ export async function getRegistered({ name, email, password }) {
   console.log(json);
   return {
     ...json,
-    message: fetchResponse.message,
+    error: fetchResponse.error,
   };
 }
 
@@ -39,17 +40,28 @@ export async function getLogin({ email, password }) {
     body: data,
   });
   const json = await fetchResponse.json();
-  console.log(json);
 
   return {
     ...json,
-    message: fetchResponse.message,
+    error: fetchResponse.error,
   };
 }
 
 export async function getAllStories() {
-  const fetchResponse = await fetch(ENDPOINTS.STORIES, {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(`${ENDPOINTS.STORIES}?location=1`, {
     method: "GET",
     headers: { Authorization: `Bearer ${accessToken}` },
   });
+
+  const json = await fetchResponse.json();
+
+  const storyList = json.listStory;
+
+  return {
+    storyList, // kembalikan storyList sebagai array
+    error: json.error, // error dari json, bukan fetchResponse
+    message: json.message, // kalau mau sekalian bawa message
+  };
 }

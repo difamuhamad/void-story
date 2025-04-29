@@ -4,7 +4,6 @@ import CONFIG from "../config";
 export function getAccessToken() {
   try {
     const accessToken = localStorage.getItem(CONFIG.ACCESS_TOKEN_KEY);
-    console.log(accessToken);
 
     if (accessToken === "null" || accessToken === "undefined") {
       return null;
