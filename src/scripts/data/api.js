@@ -60,8 +60,30 @@ export async function getAllStories() {
   const storyList = json.listStory;
 
   return {
-    storyList, // kembalikan storyList sebagai array
-    error: json.error, // error dari json, bukan fetchResponse
-    message: json.message, // kalau mau sekalian bawa message
+    storyList,
+    error: json.error,
+    message: json.message,
+  };
+}
+
+export async function postNewStory({ image, description, lat, lon }) {
+  const accessToken = getAccessToken();
+
+  const formData = new FormData();
+  formData.append("photo", image);
+  formData.set("description", description);
+  formData.set("lat", lat);
+  formData.set("lon", lon);
+
+  const fetchResponse = await fetch(ENDPOINTS.STORIES, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: formData,
+  });
+  const json = await fetchResponse.json();
+
+  return {
+    ...json,
+    ok: fetchResponse.ok,
   };
 }
