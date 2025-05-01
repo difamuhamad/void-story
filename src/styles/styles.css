@@ -82,12 +82,20 @@ header {
 }
 
 .main-header {
+  padding-inline: 2rem;
+  margin-inline: auto;
+  max-width: var(--container-width);
   min-height: var(--header-height);
   padding-block: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1.875rem;
+  z-index: 10;
+}
+
+.main-header-container {
+  view-transition-name: main-header;
 }
 
 .brand-name {
@@ -449,7 +457,7 @@ textarea:focus-visible {
   border: 1px solid var(--border);
 }
 
-/* #map-loading-container {
+#map-loading-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -461,7 +469,7 @@ textarea:focus-visible {
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 10;
   border-radius: var(--radius);
-} */
+}
 
 #submit-button-container button {
   width: 100%;
@@ -477,11 +485,33 @@ textarea:focus-visible {
   display: none;
 }
 
-.icon {
-  width: 50px;
-  height: 50px;
-  object-fit: cover; /* atau 'cover' */
-  display: inline-block; /* penting untuk gambar di dalam button */
+/* Transition kustom animation */
+::view-transition-old(root) {
+  animation-name: cover-out;
+  animation-duration: 500ms;
+}
+
+::view-transition-new(root) {
+  animation-name: cover-in;
+  animation-duration: 500ms;
+}
+
+@keyframes cover-out {
+  from {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+  to {
+    clip-path: inset(100% 0% 0% 0%);
+  }
+}
+
+@keyframes cover-in {
+  from {
+    clip-path: inset(0% 0% 100% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
 }
 
 /* Responsive Adjustments */

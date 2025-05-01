@@ -39,8 +39,17 @@ class App {
     const url = getActiveRoute();
     const page = routes[url];
 
-    this.#content.innerHTML = await page.render();
-    await page.afterRender();
+    if (!document.startViewTransition) {
+      this.#content.innerHTML = await page.render();
+      await page.afterRender();
+
+      return;
+    }
+
+    document.startViewTransition(async () => {
+      this.#content.innerHTML = await page.render();
+      await page.afterRender();
+    });
   }
 }
 
