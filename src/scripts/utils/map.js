@@ -12,6 +12,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import CONFIG from "../config";
 import { city } from "../data/city";
+
 export default class Map {
   #zoom = 5;
   #map = null;
@@ -36,7 +37,7 @@ export default class Map {
       return new Map(selector, options);
     }
 
-    const jakartaCoordinate = [-6.2, 106.816666];
+    const bandungCoordinate = [-6.9175, 107.6191];
 
     if ("locate" in options && options.locate) {
       try {
@@ -54,14 +55,14 @@ export default class Map {
         console.error("build: error:", error);
         return new Map(selector, {
           ...options,
-          center: jakartaCoordinate,
+          center: bandungCoordinate,
         });
       }
     }
 
     return new Map(selector, {
       ...options,
-      center: jakartaCoordinate,
+      center: bandungCoordinate,
     });
   }
 

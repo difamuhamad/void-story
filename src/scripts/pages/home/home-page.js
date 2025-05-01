@@ -13,7 +13,6 @@ export default class HomePage {
   #map = null;
 
   async render() {
-    // stories = reports
     return `
      <section>
      

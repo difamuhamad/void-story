@@ -29,14 +29,12 @@ export default class HomePresenter {
 
       if (!stories) {
         console.error("Init Story: error:", stories);
-        // this.#view.populateStoriesListError(stories.message);
         return;
       }
 
       this.#view.populateStoriesList(stories);
     } catch (error) {
       console.error("Populate story: error:", error);
-      // this.#view.populateReportsListError(error.message);
     } finally {
       this.#view.hideLoading();
     }

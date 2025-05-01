@@ -1,0 +1,94 @@
+/* ------- For Screen reader user -------*/
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-content {
+  display: none;
+}
+
+.hidden-input {
+  display: none;
+}
+
+/* ------View Transition and Animation------- */
+::view-transition-old(root) {
+  animation-name: cover-out;
+  animation-duration: 500ms;
+}
+
+::view-transition-new(root) {
+  animation-name: cover-in;
+  animation-duration: 500ms;
+}
+
+@keyframes cover-out {
+  from {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+  to {
+    clip-path: inset(100% 0% 0% 0%);
+  }
+}
+
+@keyframes cover-in {
+  from {
+    clip-path: inset(0% 0% 100% 0%);
+  }
+  to {
+    clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Adjustments */
+@media screen and (width > 62.5rem) {
+  .navigation-drawer {
+    min-height: auto;
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+    position: static;
+    box-shadow: none;
+    transform: translateX(0);
+  }
+
+  .nav-list {
+    flex-direction: row;
+  }
+
+  .nav-list li a {
+    display: inline-block;
+  }
+
+  .drawer-button {
+    display: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  .stories-list {
+    grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .story-card__image {
+    height: 10rem;
+  }
+}

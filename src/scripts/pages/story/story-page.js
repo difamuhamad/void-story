@@ -15,83 +15,96 @@ export default class StoryPage {
 
   async render() {
     return `
-            <section>
-                <div class="new-story__header">
-                    <div class="container">
-                        <h1 class="new-story__header__title">Upload your story</h1>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="container">
-                <div class="new-form__container">
-                    <form id="new-form" class="new-form">
-                        <div class="form-control">
-                          <label for="image-input" class="new-form__image__title">Upload image from gallery</label>
-                          <div class="new-form__image__container">
-                            <div class="new-form__image__buttons">
-                              <button id="image-input-button" class="btn btn-outline" type="button">Upload Image</button>
-                              <input
-                                id="image-input"
-                                class="new-form__image__input"
-                                name="image"
-                                type="file"
-                                accept="image/*"
-                                aria-describedby="image-more-info"
-                                hiddden="hidden"
-                              >
-                              <button id="open-image-camera-button" class="btn btn-outline" type="button" aria-label="Open Camera to capture image">
-                                Open Camera
-                              </button>
-                            </div>
-                            <div id="camera-container" class="new-form__camera__container">
-                              <video id="camera-video" class="new-form__camera__video"  aria-label="Camera preview">
-                                video stream not available.
-                              </video>
-                              <canvas id="camera-canvas" class="new-form__camera__canvas"></canvas>
-                              <div class="new-form__camera__tools">
-                                <select id="camera-select"></select>
-                                <div class="new-form__camera__tools_buttons">
-                                  <button id="camera-take-button" class="btn" type="button">
-                                    Capture
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                            <ul id="image-taken" class="new-form__image__outputs"></ul>
-                          </div>
-                        </div>
-                        <div class="form-control">
-                            <label for="description-input" class="new-form__description__title">Description :</label>
-                            <div class="new-form__description__container">
-                                <textarea
-                                  id="description-input"
-                                  name="description"
-                                  placeholder="Enter description here..."
-                                ></textarea>
-                            </div>
-                        </div>
-                        <div class="form-control">
-                          <div class="new-form__location__title">Location</div>
-                          <div class="new-form__location__container">
-                            <div class="new-form__location__map__container">
-                              <div id="map" class="new-form__location__map"></div>
-                              <div id="map-loading-container"></div>
-                            </div>
-                            <div class="new-form__location__lat-lng">
-                              <input type="number" class="hidden-input" name="lat" value="-6.175389" readonly>
-                              <input type="number" class="hidden-input" name="lon" value="106.827139" readonly>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-buttons">
-                          <span id="submit-button-container">
-                            <button class="btn" type="submit">Upload Story 📤</button>
-                          </span>
-                        </div>
-                    </form>
-                </div>
-            </section>
+           <section>
+  <div class="new-story__header">
+    <div class="container">
+      <h1 class="new-story__header__title">Upload your new story</h1>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="new-form__container">
+    <form id="new-form" class="new-form">
+      
+      <div class="form-control">
+        <label for="image-input" class="new-form__image__title sr-only">Upload image from local</label>
+        <div class="new-form__image__container">
+          <div class="new-form__image__buttons">
+            <button id="image-input-button" class="btn" type="button" aria-describedby="image-more-info">
+              Upload Image
+            </button>
+            <input
+              id="image-input"
+              class="new-form__image__input"
+              name="image"
+              type="file"
+              accept="image/*"
+              aria-describedby="image-more-info"
+              hidden
+            >
+            <button id="open-image-camera-button" class="btn" type="button" aria-label="Open Camera to capture image">
+              Open Camera
+            </button>
+          </div>
+
+          <div id="camera-container" class="new-form__camera__container">
+            <video id="camera-video" class="new-form__camera__video" aria-label="Camera preview">
+              video stream not available.
+            </video>
+            <canvas id="camera-canvas" class="new-form__camera__canvas"></canvas>
+
+            <div class="new-form__camera__tools">
+              <label for="camera-select" class="sr-only">Select Camera</label>
+              <select id="camera-select"></select>
+              <div class="new-form__camera__tools_buttons">
+                <button id="camera-take-button" type="button" class="btn" aria-label="Capture image from camera">
+                  Capture
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ul id="image-taken" class="new-form__image__outputs" aria-live="polite" role="status"></ul>
+        </div>
+      </div>
+
+      <div class="form-control description-title-container">
+        <label for="description-input" class="new-form__description__title">Description</label>
+        <div class="new-form__description__container">
+          <textarea
+            id="description-input"
+            name="description"
+            placeholder="Enter description here..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <div class="new-form__location__title" id="location-label">Location:</div>
+        <div class="new-form__location__container">
+          <div class="new-form__location__map__container" aria-labelledby="location-label">
+            <div id="map" class="new-form__location__map" role="application" aria-label="Interactive map to pick location"></div>
+            <div id="map-loading-container" aria-live="polite" role="status"></div>
+          </div>
+          <div class="new-form__location__lat-lng">
+            <input type="number" class="hidden-input" name="lat" value="-6.175389" readonly aria-label="Latitude">
+            <input type="number" class="hidden-input" name="lon" value="106.827139" readonly aria-label="Longitude">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-buttons">
+        <span id="submit-button-container">
+          <button class="new-form__submit-button" type="submit">
+            Upload Story
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+</section>
+
         `;
   }
 
@@ -289,7 +302,9 @@ export default class StoryPage {
 
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-          <button class="btn" type="submit">Upload Story 📤</button>
+            <button class="new-form__submit-button" type="submit">
+            Upload Story
+          </button>
         `;
   }
 }
