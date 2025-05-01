@@ -27,9 +27,7 @@ export default class StoryPage {
                 <div class="new-form__container">
                     <form id="new-form" class="new-form">
                         <div class="form-control">
-                          <label for="image-input" class="new-form__image__title"></label>
-                          <div id="image-more-info">Post with maximum 1 image only.</div>
-            
+                          <label for="image-input" class="new-form__image__title">Upload image from gallery</label>
                           <div class="new-form__image__container">
                             <div class="new-form__image__buttons">
                               <button id="image-input-button" class="btn btn-outline" type="button">Upload Image</button>
@@ -41,17 +39,15 @@ export default class StoryPage {
                                 accept="image/*"
                                 aria-describedby="image-more-info"
                               >
-                              <button id="open-image-camera-button" class="btn btn-outline" type="button">
+                              <button id="open-image-camera-button" class="btn btn-outline" type="button" aria-label="Open Camera to capture image">
                                 Open Camera
                               </button>
                             </div>
                             <div id="camera-container" class="new-form__camera__container">
-                              <video id="camera-video" class="new-form__camera__video">
+                              <video id="camera-video" class="new-form__camera__video"  aria-label="Camera preview">
                                 video stream not available.
                               </video>
-            
                               <canvas id="camera-canvas" class="new-form__camera__canvas"></canvas>
-            
                               <div class="new-form__camera__tools">
                                 <select id="camera-select"></select>
                                 <div class="new-form__camera__tools_buttons">
@@ -64,10 +60,8 @@ export default class StoryPage {
                             <ul id="image-taken" class="new-form__image__outputs"></ul>
                           </div>
                         </div>
-                    
                         <div class="form-control">
-                            <label for="description-input" class="new-form__description__title"></label>
-                        
+                            <label for="description-input" class="new-form__description__title">Description :</label>
                             <div class="new-form__description__container">
                                 <textarea
                                   id="description-input"
@@ -78,23 +72,21 @@ export default class StoryPage {
                         </div>
                         <div class="form-control">
                           <div class="new-form__location__title">Location</div>
-            
                           <div class="new-form__location__container">
                             <div class="new-form__location__map__container">
                               <div id="map" class="new-form__location__map"></div>
                               <div id="map-loading-container"></div>
                             </div>
                             <div class="new-form__location__lat-lng">
-                              <input type="number" class="hidden-input" name="lat" value="-6.175389" disabled>
-                              <input type="number" class="hidden-input" name="lon" value="106.827139" disabled>
+                              <input type="number" class="hidden-input" name="lat" value="-6.175389" readonly>
+                              <input type="number" class="hidden-input" name="lon" value="106.827139" readonly>
                             </div>
                           </div>
                         </div>
                         <div class="form-buttons">
                           <span id="submit-button-container">
-                            <button class="btn" type="submit">Upload Story ✨</button>
+                            <button class="btn" type="submit">Upload Story 📤</button>
                           </span>
-                          <a class="btn btn-outline" href="#/">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -219,8 +211,13 @@ export default class StoryPage {
   async #addTakenPicture(image) {
     let blob = image;
 
-    if (image instanceof String) {
+    if (typeof image === "string") {
       blob = await convertBase64ToBlob(image, "image/png");
+    }
+
+    if (!(blob instanceof Blob)) {
+      console.error("Error Invalid blob:", blob);
+      return;
     }
 
     this.#takenImage = {
@@ -244,11 +241,12 @@ export default class StoryPage {
             </li>
         `;
 
+    document;
     document
       .getElementById("delete-picture-button")
       .addEventListener("click", () => {
         this.#removePicture();
-        this.#populateTakenPicture();
+        document.getElementById("image-taken").innerHTML = "";
       });
   }
 
@@ -283,14 +281,14 @@ export default class StoryPage {
   showSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
           <button class="btn" type="submit" disabled>
-            <i class="fas fa-spinner loader-button"></i> Buat Story
+            <i class="fas fa-spinner loader-button"></i> Uploading...
           </button>
         `;
   }
 
   hideSubmitLoadingButton() {
     document.getElementById("submit-button-container").innerHTML = `
-          <button class="btn" type="submit">Buat Story</button>
+          <button class="btn" type="submit">Upload Story 📤</button>
         `;
   }
 }

@@ -469,6 +469,21 @@ textarea:focus-visible {
   font-size: 1rem;
 }
 
+.skip-to-content {
+  display: none;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; /* atau 'cover' */
+  display: inline-block; /* penting untuk gambar di dalam button */
+}
+
 /* Responsive Adjustments */
 @media screen and (width > 62.5rem) {
   .navigation-drawer {
