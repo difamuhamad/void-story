@@ -26,6 +26,7 @@
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
+    "@maptiler/sdk": "^3.2.2",
     "leaflet": "^1.9.4",
     "tiny-slider": "^2.9.4"
   }

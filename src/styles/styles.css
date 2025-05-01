@@ -469,6 +469,7 @@ textarea:focus-visible {
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 10;
   border-radius: var(--radius);
+  display: none;
 }
 
 #submit-button-container button {

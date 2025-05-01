@@ -38,6 +38,7 @@ export default class StoryPage {
                                 type="file"
                                 accept="image/*"
                                 aria-describedby="image-more-info"
+                                hiddden="hidden"
                               >
                               <button id="open-image-camera-button" class="btn btn-outline" type="button" aria-label="Open Camera to capture image">
                                 Open Camera

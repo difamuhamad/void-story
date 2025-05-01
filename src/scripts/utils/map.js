@@ -1,8 +1,17 @@
-import { map, tileLayer, Icon, icon, marker, popup, latLng } from "leaflet";
+import {
+  map,
+  tileLayer,
+  Icon,
+  icon,
+  marker,
+  popup,
+  latLng,
+  control,
+} from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
-// import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
+import CONFIG from "../config";
+import { city } from "../data/city";
 export default class Map {
   #zoom = 5;
   #map = null;
@@ -71,12 +80,31 @@ export default class Map {
       }
     );
 
+    const tileSatellite = tileLayer(
+      `https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=${CONFIG.MAP_SERVICE_API_KEY}`,
+      {
+        attribution:
+          '&copy; <a href="https://www.maptiler.com/" target="_blank">MapTiler</a> contributors',
+      }
+    );
+
     this.#map = map(document.querySelector(selector), {
       zoom: this.#zoom,
       scrollWheelZoom: false,
       layers: [tileOsm],
       ...options,
     });
+
+    const baseMaps = {
+      Default: tileOsm,
+      "Satelite View": tileSatellite,
+    };
+
+    const overlayMaps = {
+      City: city,
+    };
+
+    control.layers(baseMaps, overlayMaps).addTo(this.#map);
   }
 
   changeCamera(coordinate, zoomLevel = null) {
