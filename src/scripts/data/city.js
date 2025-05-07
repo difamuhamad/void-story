@@ -1,14 +1,12 @@
-import { marker, layerGroup, icon } from "leaflet";
+import { marker, layerGroup, icon, Icon } from "leaflet";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import customMarker from "../../public/images/marker-icon.png";
 
 const defaultIcon = icon({
-  iconUrl: customMarker,
+  ...Icon.Default.prototype.options,
+  iconUrl:
+    "https://preview.redd.it/2yv5x9hto5f61.png?width=341&format=png&auto=webp&s=eccf34f646917d5a7c0196de5c2fc2e7ef3e2427",
   shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+  iconSize: [35, 40],
 });
 
 const medan = marker([3.5952, 98.6722], { icon: defaultIcon }).bindPopup(

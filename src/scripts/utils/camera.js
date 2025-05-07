@@ -21,15 +21,17 @@ export default class Camera {
 
   static stopAllStreams() {
     if (!Array.isArray(window.currentStreams)) {
-      window.currentStreams = [];
       return;
     }
 
     window.currentStreams.forEach((stream) => {
-      if (stream.active) {
-        stream.getTracks().forEach((track) => track.stop());
-      }
+      stream.getTracks().forEach((track) => {
+        track.stop();
+        track.enabled = false;
+      });
     });
+
+    window.currentStreams = [];
   }
 
   constructor({ video, cameraSelect, canvas, options = {} }) {
@@ -116,28 +118,36 @@ export default class Camera {
   }
 
   async launch() {
-    this.#currentStream = await this.#getStream();
+    try {
+      this.#currentStream = await this.#getStream();
+      if (!this.#currentStream) throw new Error("No stream available");
 
-    Camera.addNewStream(this.#currentStream);
-
-    this.#videoElement.srcObject = this.#currentStream;
-    this.#videoElement.play();
-
-    this.#clearCanvas();
+      Camera.addNewStream(this.#currentStream);
+      this.#videoElement.srcObject = this.#currentStream;
+      await this.#videoElement.play();
+      this.#clearCanvas();
+    } catch (error) {
+      console.error("Camera launch failed:", error);
+      this.stop();
+      throw error;
+    }
   }
 
   stop() {
     if (this.#videoElement) {
+      this.#videoElement.pause();
       this.#videoElement.srcObject = null;
-      this.#streaming = false;
     }
 
-    if (this.#currentStream instanceof MediaStream) {
+    if (this.#currentStream) {
       this.#currentStream.getTracks().forEach((track) => {
         track.stop();
+        track.enabled = false;
       });
+      this.#currentStream = null;
     }
 
+    this.#streaming = false;
     this.#clearCanvas();
   }
 

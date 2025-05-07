@@ -7,17 +7,6 @@ export default class HomePresenter {
     this.#model = model;
   }
 
-  async showStoriesListMap() {
-    this.#view.showMapLoading();
-    try {
-      await this.#view.initialMap();
-    } catch (error) {
-      console.error("showStoriesListMap: error:", error);
-    } finally {
-      this.#view.hideMapLoading();
-    }
-  }
-
   async initialStoriesAndMap() {
     this.#view.showLoading();
     try {
@@ -25,7 +14,6 @@ export default class HomePresenter {
 
       const response = await this.#model.getAllStories();
       const stories = response.storyList;
-      console.log("Ini ada boos: ", stories);
 
       if (!stories) {
         console.error("Init Story: error:", stories);
@@ -37,6 +25,17 @@ export default class HomePresenter {
       console.error("Populate story: error:", error);
     } finally {
       this.#view.hideLoading();
+    }
+  }
+
+  async showStoriesListMap() {
+    this.#view.showMapLoading();
+    try {
+      await this.#view.initialMap();
+    } catch (error) {
+      console.error("showStoriesListMap: error:", error);
+    } finally {
+      this.#view.hideMapLoading();
     }
   }
 }

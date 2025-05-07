@@ -12,11 +12,32 @@
 }
 
 .skip-to-content {
-  display: none;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  color: red;
+}
+
+.skip-to-content:focus {
+  position: unset !important;
 }
 
 .hidden-input {
   display: none;
+}
+
+.story-card:focus {
+  outline: 2px solid #88f7f1;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(136, 247, 241, 0.3);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.story-card {
+  transition: all 0.2s ease;
 }
 
 /* ------View Transition and Animation------- */
@@ -57,7 +78,7 @@
   }
 }
 
-/* Responsive Adjustments */
+/* Responsive Styles */
 @media screen and (width > 62.5rem) {
   .navigation-drawer {
     min-height: auto;
@@ -67,6 +88,11 @@
     position: static;
     box-shadow: none;
     transform: translateX(0);
+  }
+
+  .story-card {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
   }
 
   .nav-list {
@@ -85,10 +111,114 @@
 @media (max-width: 48rem) {
   .stories-list {
     grid-template-columns: repeat(auto-fill, minmax(15.625rem, 1fr));
-    gap: var(--spacing-md);
+    gap: 1rem;
   }
 
   .story-card__image {
     height: 10rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container,
+  .main-header {
+    padding-inline: 1rem;
+  }
+
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Story Cards */
+  .stories-list {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+
+  .story-card {
+    margin-bottom: 0.75rem;
+  }
+
+  .story-card__image {
+    height: 9rem;
+  }
+
+  .story-card__name {
+    font-size: 1.1rem;
+    margin: 0.75rem 0.75rem 0.25rem;
+  }
+
+  .story-card__description,
+  p {
+    font-size: 0.85rem;
+    margin: 0 0.75rem 0.75rem;
+  }
+
+  /* Forms */
+  .new-form__container,
+  .register-form-container,
+  .login-form-container {
+    padding: 1.5rem;
+  }
+
+  .new-form__image__buttons,
+  .new-form__camera__tools {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* About Page */
+  .about__container {
+    padding: 1rem;
+  }
+
+  .about__heading {
+    font-size: 2rem;
+  }
+
+  .about__paragraph {
+    font-size: 1rem;
+  }
+
+  .footer__content {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__social {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-name a {
+    font-size: 1rem;
+  }
+
+  .brand-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Story Cards */
+  .story-card__image {
+    height: 8rem;
+  }
+
+  /* Forms */
+  .new-form__container,
+  .register-form-container,
+  .login-form-container {
+    padding: 1rem;
+  }
+
+  .new-form__image__outputs {
+    width: 100%;
+  }
+
+  /* About Page */
+  .about__heading {
+    font-size: 1.75rem;
   }
 }

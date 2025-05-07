@@ -8,7 +8,6 @@ import {
   latLng,
   control,
 } from "leaflet";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import CONFIG from "../config";
 import { city } from "../data/city";
@@ -91,8 +90,9 @@ export default class Map {
 
     this.#map = map(document.querySelector(selector), {
       zoom: this.#zoom,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       layers: [tileOsm],
+      keyboard: false,
       ...options,
     });
 
@@ -127,8 +127,10 @@ export default class Map {
   createIcon(options = {}) {
     return icon({
       ...Icon.Default.prototype.options,
-      iconUrl: markerIcon,
+      iconUrl:
+        "https://preview.redd.it/2yv5x9hto5f61.png?width=341&format=png&auto=webp&s=eccf34f646917d5a7c0196de5c2fc2e7ef3e2427",
       shadowUrl: markerShadow,
+      iconSize: [35, 40],
       ...options,
     });
   }
@@ -140,6 +142,7 @@ export default class Map {
 
     const newMarker = marker(coordinates, {
       icon: this.createIcon(),
+      keyboard: false,
       ...markerOptions,
     });
 

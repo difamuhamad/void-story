@@ -109,13 +109,28 @@ export default class StoryPage {
   }
 
   async afterRender() {
-    this.#presenter = new StoryPresenter({
-      view: this,
-      model: MinitalesAPI,
-    });
-
+    this.#presenter = new StoryPresenter({ view: this, model: MinitalesAPI });
     this.#presenter.showNewFormMap();
     this.#setupForm();
+
+    this.handleVisibilityChange = () => {
+      if (document.hidden && this.#isCameraOpen && this.#camera) {
+        this.#camera.stop();
+        this.#isCameraOpen = false;
+        document.getElementById("open-image-camera-button").textContent =
+          "Open Camera";
+        document.getElementById("camera-container").classList.remove("open");
+      }
+    };
+
+    document.addEventListener("visibilitychange", this.handleVisibilityChange);
+  }
+
+  onDestroy() {
+    document.removeEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange
+    );
   }
 
   #setupForm() {
@@ -206,7 +221,8 @@ export default class StoryPage {
 
   #setupCamera() {
     if (this.#camera) {
-      return;
+      this.#camera.stop();
+      this.#camera = null;
     }
 
     this.#camera = new Camera({
@@ -270,6 +286,7 @@ export default class StoryPage {
 
   storeSuccessfully(message) {
     console.log(message);
+    this.destroy();
     this.clearForm();
 
     location.href = "/";
@@ -281,6 +298,21 @@ export default class StoryPage {
 
   clearForm() {
     this.#form.reset();
+  }
+
+  destroy() {
+    if (this.#isCameraOpen && this.#camera) {
+      this.#camera.stop();
+      document.getElementById("open-image-camera-button").textContent =
+        "Open Camera";
+      document.getElementById("camera-container").classList.remove("open");
+    }
+
+    Camera.stopAllStreams();
+
+    this.#camera = null;
+    this.#isCameraOpen = false;
+    this.#takenImage = null;
   }
 
   showLoadingMap() {

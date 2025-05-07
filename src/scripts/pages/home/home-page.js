@@ -14,21 +14,20 @@ export default class HomePage {
 
   async render() {
     return `
-     <section>
-     
+    <section class="container">
+    <h1 class="section-title">Stories : </h1>
+    
+    <div class="stories-list__container">
+    <div id="stories-list"></div>
+    <div id="stories-list-loading-container"></div>
+    </div>
+    
+    <h2 class="section-title">Find stories around you : </h2>
         <div class="stories-list__map__container">
-          <div id="map" class="stories-list__map"></div>
+          <div id="map" class="stories-list__map" tabindex="-1"></div>
           <div id="map-loading-container"></div>
         </div>
-      </section>
 
-      <section class="container">
-        <h1 class="section-title">Stories : </h1>
-
-        <div class="stories-list__container">
-          <div id="stories-list"></div>
-          <div id="stories-list-loading-container"></div>
-        </div>
       </section>
     `;
   }
@@ -38,11 +37,9 @@ export default class HomePage {
       view: this,
       model: MinitalesAPI,
     });
-
-    // await this.#presenter.getStoriesList();
-
-    // with map
     await this.#presenter.initialStoriesAndMap();
+
+    this.setupKeyboardNavigation();
   }
 
   populateStoriesList(stories) {
@@ -51,7 +48,7 @@ export default class HomePage {
       return;
     }
 
-    const html = stories.reduce((accumulator, stories) => {
+    const html = stories.reduce((accumulator, stories, index) => {
       if (this.#map) {
         const coordinate = [stories.lat, stories.lon];
         const markerOptions = { alt: stories.name };
@@ -67,6 +64,9 @@ export default class HomePage {
           createdAt: stories.createdAt,
           location: { lat: stories.lat, lon: stories.lon },
           photoUrl: stories.photoUrl,
+          role: "article",
+          ariaPosinset: index + 1,
+          ariaSetsize: stories.length,
         })
       );
     }, "");
@@ -74,6 +74,29 @@ export default class HomePage {
     document.getElementById("stories-list").innerHTML = `
       <div class="stories-list">${html}</div>
     `;
+  }
+
+  setupKeyboardNavigation() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        const cards = Array.from(document.querySelectorAll(".story-card"));
+        const currentCard = document.activeElement;
+
+        if (cards.includes(currentCard)) {
+          const currentIndex = cards.indexOf(currentCard);
+          let nextIndex;
+
+          if (event.key === "ArrowRight") {
+            nextIndex = (currentIndex + 1) % cards.length;
+          } else {
+            nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+          }
+
+          cards[nextIndex].focus();
+          event.preventDefault();
+        }
+      }
+    });
   }
 
   populateStoriesListEmpty() {
@@ -90,6 +113,7 @@ export default class HomePage {
     this.#map = await Map.build("#map", {
       zoom: 10,
       locate: true,
+      keyboard: false,
     });
   }
 

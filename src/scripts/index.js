@@ -15,8 +15,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   await app.renderPage();
 
   window.addEventListener("hashchange", async () => {
-    await app.renderPage();
+    if (app.currentPage && app.currentPage.destroy) {
+      app.currentPage.destroy();
+    }
 
+    await app.renderPage();
     Camera.stopAllStreams();
   });
 });

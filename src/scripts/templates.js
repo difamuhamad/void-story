@@ -1,4 +1,4 @@
-import { showFormattedDate } from "./utils";
+// import { showFormattedDate } from "./utils";
 
 export function generateLoaderTemplate() {
   return `
@@ -68,59 +68,23 @@ export function generateStoriesItemTemplate({
   description,
   createdAt,
   photoUrl,
+  role = "article",
+  ariaPosinset,
 }) {
   return `
-     <div id="${id}" class="story-card">
-        <img src="${photoUrl}" alt="${name}" class="story-card__image"/>
-        <h2 class="story-card__name">${name}</h2>
-        <p class="story-card__description">${description}</p>
-        <small class="story-card__created-at">${new Date(
-          createdAt
-        ).toLocaleString()}</small>
-      </div>
-  `;
-}
-
-export function generateStoryDetailImageTemplate(imageUrl = null, alt = "") {
-  if (!imageUrl) {
-    return `
-      <img class="report-detail__image" src="images/placeholder-image.jpg" alt="Placeholder Image">
-    `;
-  }
-
-  return `
-    <img class="report-detail__image" src="${imageUrl}" alt="${alt}">
-  `;
-}
-
-export function generateSubscribeButtonTemplate() {
-  return `
-    <button id="subscribe-button" class="btn subscribe-button">
-      Subscribe <i class="fas fa-bell"></i>
-    </button>
-  `;
-}
-
-export function generateUnsubscribeButtonTemplate() {
-  return `
-    <button id="unsubscribe-button" class="btn unsubscribe-button">
-      Unsubscribe <i class="fas fa-bell-slash"></i>
-    </button>
-  `;
-}
-
-export function generateSaveStoriesButtonTemplate() {
-  return `
-    <button id="stories-detail-save" class="btn btn-transparent">
-      Simpan laporan <i class="far fa-bookmark"></i>
-    </button>
-  `;
-}
-
-export function generateRemoveStoriesButtonTemplate() {
-  return `
-    <button id="stories-detail-remove" class="btn btn-transparent">
-      Buang laporan <i class="fas fa-bookmark"></i>
-    </button>
+     <div id="${id}" 
+        class="story-card
+        role="${role}"
+        tabindex="0"
+        aria-posinset="${ariaPosinset}"
+        aria-setsize="10"
+        >
+          <img src="${photoUrl}" alt="${name}" class="story-card__image"/>
+          <h2 class="story-card__name">${name}</h2>
+          <p class="story-card__description">${description}</p>
+          <small class="story-card__created-at">${new Date(
+            createdAt
+          ).toLocaleString()}</small>
+        </div>
   `;
 }
