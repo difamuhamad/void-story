@@ -29,7 +29,7 @@ export default class StoryPresenter {
       };
       const response = await this.#model.postNewStory(data);
 
-      if (!response.ok) {
+      if (response.error) {
         console.error("Post story error message:", response);
         this.#view.storeFailed(response.message);
         return;

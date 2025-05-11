@@ -9,7 +9,7 @@ import {
   control,
 } from "leaflet";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import CONFIG from "../config";
+import { MAP_SERVICE_API_KEY } from "../config";
 import { city } from "../data/city";
 
 export default class Map {
@@ -81,7 +81,7 @@ export default class Map {
     );
 
     const tileSatellite = tileLayer(
-      `https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=${CONFIG.MAP_SERVICE_API_KEY}`,
+      `https://api.maptiler.com/maps/satellite/{z}/{x}/{y}.jpg?key=${MAP_SERVICE_API_KEY}`,
       {
         attribution:
           '&copy; <a href="https://www.maptiler.com/" target="_blank">MapTiler</a> contributors',

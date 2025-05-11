@@ -83,7 +83,7 @@ header {
   transform: translateX(0);
 }
 
-.drawer-button {
+.sidebar-button {
   padding: 0.5rem;
   border: 0;
   border-radius: 0.125rem;
@@ -93,7 +93,7 @@ header {
   color: #ddf7ff;
   cursor: pointer;
 }
-.drawer-button:hover {
+.sidebar-button:hover {
   color: #88f7f1;
 }
 
@@ -859,4 +859,21 @@ p {
 
 .login-form__error.show {
   display: block;
+}
+
+/* -------- Profile Page -------- */
+
+.push-notification-tools {
+  display: flex;
+  border: solid 1px red;
+}
+
+.subscribe-button {
+  padding: 40px;
+  background-color: #42ada8;
+}
+
+.unsubscribe-button {
+  padding: 40px;
+  background-color: #42ada8;
 }

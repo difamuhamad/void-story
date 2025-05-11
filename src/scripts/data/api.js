@@ -1,12 +1,10 @@
-import CONFIG from "../config";
+import { BASE_URL } from "../config";
 import { getAccessToken } from "../utils/auth";
 const ENDPOINTS = {
-  // ENDPOINT: `${BASE_URL}/your/endpoint/here`,
-
-  // Authentication
-  REGISTER: `${CONFIG.BASE_URL}/register`,
-  LOGIN: `${CONFIG.BASE_URL}/login`,
-  STORIES: `${CONFIG.BASE_URL}/stories`,
+  REGISTER: `${BASE_URL}/register`,
+  LOGIN: `${BASE_URL}/login`,
+  STORIES: `${BASE_URL}/stories`,
+  SUBSCRIBE: `${BASE_URL}/notifications/subscribe`,
 };
 
 export async function getData() {
@@ -83,7 +81,53 @@ export async function postNewStory({ image, description, lat, lon }) {
   const json = await fetchResponse.json();
 
   return {
-    ...json,
-    ok: fetchResponse.ok,
+    error: json.error,
+    message: json.message,
+  };
+}
+
+export async function subscribePushNotification({ endpoint, keys }) {
+  const accessToken = getAccessToken();
+
+  const data = JSON.stringify({
+    endpoint,
+    keys: {
+      p256dh: keys.p256dh,
+      auth: keys.auth,
+    },
+  });
+
+  const fetchResponse = await fetch(ENDPOINTS.SUBSCRIBE, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: data,
+  });
+
+  if (!fetchResponse.ok) {
+    throw new Error(`HTTP error! status: ${fetchResponse.status}`);
+  }
+
+  return await fetchResponse.json();
+}
+
+export async function unsubscribePushNotification({ endpoint }) {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(ENDPOINTS.SUBSCRIBE, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ endpoint }),
+  });
+  const json = await fetchResponse.json();
+
+  return {
+    error: json.error,
+    message: json.message,
   };
 }

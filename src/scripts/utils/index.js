@@ -1,3 +1,4 @@
+// Format date to readable string
 export function showFormattedDate(date, locale = "en-US", options = {}) {
   return new Date(date).toLocaleDateString(locale, {
     year: "numeric",
@@ -11,7 +12,7 @@ export function sleep(time = 1000) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-// Convert to blob
+// Convert file to blob
 export function convertBlobToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -44,6 +45,7 @@ export function convertBase64ToBlob(
   return new Blob(byteArrays, { type: contentType });
 }
 
+// Convert vapid keys to Uint8Array
 export function convertBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -54,4 +56,28 @@ export function convertBase64ToUint8Array(base64String) {
     outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
+}
+
+// Register service-worker
+export function isServiceWorkerAvailable() {
+  return "serviceWorker" in navigator;
+}
+
+export async function registerServiceWorker() {
+  if (!isServiceWorkerAvailable()) {
+    console.log("Service Worker API unsupported");
+    return;
+  }
+
+  try {
+    const registration = await navigator.serviceWorker.register(
+      "/sw.bundle.js"
+    );
+
+    if (registration.installing) {
+      console.log("Service installed :", registration);
+    }
+  } catch (error) {
+    console.log("Failed to install service worker:", error);
+  }
 }
