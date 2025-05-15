@@ -1,5 +1,5 @@
 import { getActiveRoute } from "../routes/url-parser";
-import { ACCESS_TOKEN_KEY } from "../config";
+import { ACCESS_TOKEN_KEY, USER_ID, USER_NAME } from "../config";
 
 export function getAccessToken() {
   try {
@@ -16,19 +16,23 @@ export function getAccessToken() {
   }
 }
 
-export function putAccessToken(token) {
+export function putAccessTokenAndUserData(data) {
   try {
-    localStorage.setItem(ACCESS_TOKEN_KEY, token);
+    localStorage.setItem(USER_ID, data.userId);
+    localStorage.setItem(USER_NAME, data.name);
+    localStorage.setItem(ACCESS_TOKEN_KEY, data.token);
     return true;
   } catch (error) {
-    console.error("putAccessToken: error:", error);
+    console.error("Put User Data error:", error);
     return false;
   }
 }
 
-export function removeAccessToken() {
+export function removeAccessTokenAndUserData() {
   try {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
+    localStorage.removeItem(USER_ID);
+    localStorage.removeItem(USER_NAME);
     return true;
   } catch (error) {
     console.error("getLogout: error:", error);
@@ -61,6 +65,22 @@ export function checkAuthenticatedRoute(page) {
   return page;
 }
 
+export function getUserData() {
+  try {
+    const userId = localStorage.getItem(USER_ID);
+    const userName = localStorage.getItem(USER_NAME);
+
+    if (userId === "null" || userId === "undefined") {
+      return null;
+    }
+
+    return { name: userName, id: userId };
+  } catch (error) {
+    console.error("Get user data error:", error);
+    return null;
+  }
+}
+
 export function getLogout() {
-  removeAccessToken();
+  removeAccessTokenAndUserData();
 }

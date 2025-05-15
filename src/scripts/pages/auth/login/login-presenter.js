@@ -13,13 +13,14 @@ export default class LoginPresenter {
     this.#view.showSubmitLoadingButton();
     try {
       const response = await this.#model.getLogin({ email, password });
+      console.log(response);
 
       if (response.error == true) {
         console.error("getLogin: response:", response);
         this.#view.loginFailed(response.message);
         return;
       }
-      this.#authModel.putAccessToken(response.loginResult.token);
+      this.#authModel.putAccessTokenAndUserData(response.data);
 
       this.#view.loginSuccessfully(response.message, response.data);
     } catch (error) {

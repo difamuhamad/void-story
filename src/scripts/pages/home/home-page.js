@@ -1,5 +1,5 @@
 import HomePresenter from "./home-presenter";
-import * as MinitalesAPI from "../../data/api";
+import * as ModelData from "../../data/api";
 import Map from "../../utils/map";
 import {
   generateLoaderAbsoluteTemplate,
@@ -35,7 +35,7 @@ export default class HomePage {
   async afterRender() {
     this.#presenter = new HomePresenter({
       view: this,
-      model: MinitalesAPI,
+      model: ModelData,
     });
     await this.#presenter.initialStoriesAndMap();
 

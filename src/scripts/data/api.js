@@ -40,8 +40,8 @@ export async function getLogin({ email, password }) {
   const json = await fetchResponse.json();
 
   return {
-    ...json,
-    error: fetchResponse.error,
+    data: json.loginResult,
+    error: json.error,
   };
 }
 

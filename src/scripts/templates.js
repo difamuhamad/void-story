@@ -1,5 +1,21 @@
 // import { showFormattedDate } from "./utils";
 
+export function generateAuthenticatedNavbarTemplate() {
+  return `
+    <li><a href="#/">Home</a></li>
+    <li><a href="#/story">Add Story</a></li>
+    <li><a href="#/about">About</a></li>
+    <li><a href="#/profile">Profile</a></li>
+  `;
+}
+
+export function generateUnauthenticatedNavbarTemplate() {
+  return `
+    <li><a href="#/about">About</a></li>
+    <li><a href="#/register" class="auth-button">Register</a></li>
+  `;
+}
+
 export function generateLoaderTemplate() {
   return `
     <div class="loader"></div>

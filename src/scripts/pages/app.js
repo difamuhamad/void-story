@@ -1,5 +1,10 @@
 import routes from "../routes/routes";
 import { getActiveRoute } from "../routes/url-parser";
+import { getAccessToken } from "../utils/auth";
+import {
+  generateAuthenticatedNavbarTemplate,
+  generateUnauthenticatedNavbarTemplate,
+} from "../templates";
 
 class App {
   #content = null;
@@ -12,6 +17,7 @@ class App {
     this.#navigationDrawer = navigationDrawer;
 
     this._setupSideBar();
+    this._setupNavigation();
   }
 
   _setupSideBar() {
@@ -35,49 +41,48 @@ class App {
     });
   }
 
-  // #setupNavigationList() {
-  //   const isLogin = !!getAccessToken();
-  //   const navListMain =
-  //     this.#drawerNavigation.children.namedItem("navlist-main");
-  //   const navList = this.#drawerNavigation.children.namedItem("navlist");
+  _setupNavigation() {
+    const isAuthenticated = !!getAccessToken();
+    const navList = this.#navigationDrawer.querySelector("#nav-list");
 
-  //   // User not log in
-  //   if (!isLogin) {
-  //     navListMain.innerHTML = "";
-  //     navList.innerHTML = generateUnauthenticatedNavigationListTemplate();
-  //     return;
-  //   }
+    if (isAuthenticated) {
+      navList.innerHTML = generateAuthenticatedNavbarTemplate();
+    } else {
+      navList.innerHTML = generateUnauthenticatedNavbarTemplate();
 
-  //   navListMain.innerHTML = generateMainNavigationListTemplate();
-  //   navList.innerHTML = generateAuthenticatedNavigationListTemplate();
-
-  //   const logoutButton = document.getElementById("logout-button");
-  //   logoutButton.addEventListener("click", (event) => {
-  //     event.preventDefault();
-
-  //     if (confirm("Apakah Anda yakin ingin keluar?")) {
-  //       getLogout();
-
-  //       // Redirect
-  //       location.hash = "/login";
-  //     }
-  //   });
-  // }
+      // Redirect if go to protected routes
+      const protectedRoutes = ["/story", "/profile"];
+      const currentRoute = getActiveRoute();
+      if (protectedRoutes.includes(currentRoute)) {
+        window.location.hash = "/register";
+      }
+    }
+  }
 
   async renderPage() {
     const url = getActiveRoute();
     const page = routes[url];
 
+    // Check authentication before rendering protected pages
+    const isAuthenticated = !!getAccessToken();
+    const protectedRoutes = ["/story", "/profile"];
+
+    if (protectedRoutes.includes(url) && !isAuthenticated) {
+      window.location.hash = "/register";
+      return;
+    }
+
     if (!document.startViewTransition) {
       this.#content.innerHTML = await page.render();
       await page.afterRender();
-
+      this._setupNavigation(); // Update navbar after page render
       return;
     }
 
     document.startViewTransition(async () => {
       this.#content.innerHTML = await page.render();
       await page.afterRender();
+      this._setupNavigation();
     });
   }
 }

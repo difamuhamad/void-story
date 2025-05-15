@@ -1,0 +1,115 @@
+{
+  "id": "/#/",
+  "start_url": "/#/",
+  "scope": "/",
+  "name": "Void Story",
+  "short_name": "VStory",
+  "description": "Daily picture sharing application with the futuristic design, the geomap feature, and user can save or archive the photo.",
+  "display": "standalone",
+  "background_color": "#090f18",
+  "theme_color": "#0f1624",
+  "icons": [
+    {
+      "src": "images/icons/icon-x144.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any"
+    },
+    {
+      "src": "images/icons/maskable-icon-x48.png",
+      "type": "image/png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icons/maskable-icon-x96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icons/maskable-icon-x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icons/maskable-icon-x384.png",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icons/maskable-icon-x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshots/VoidStory_001.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "images/screenshots/VoidStory_002.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "images/screenshots/VoidStory_003.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "images/screenshots/VoidStory_004.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "images/screenshots/VoidStory_005.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "images/screenshots/VoidStory_006.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Upload Story",
+      "short_name": "Upload",
+      "description": "Upload New Story.",
+      "url": "/?source=pwa#/story",
+      "icons": [
+        {
+          "src": "images/icons/maskable-icon-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Saved Story",
+      "short_name": "Saved",
+      "description": "See all the archived/saved story.",
+      "url": "/?source=pwa#/profile",
+      "icons": [
+        {
+          "src": "images/icons/maskable-icon-x512.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ]
+}

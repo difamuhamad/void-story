@@ -11,18 +11,84 @@ import {
   subscribe,
   unsubscribe,
 } from "../../utils/helper";
+import ProfilePresenter from "./profile-presenter";
+import * as userModel from "../../utils/auth";
 
 export default class ProfilePage {
   #presenter;
 
-  async render() {
+  constructor() {
+    this.#presenter = new ProfilePresenter({
+      view: this,
+      model: userModel,
+    });
+  }
+
+  render() {
     return `
-    <section class="container">
-      <div id="push-notification-tools" class="push-notification-tools">
-        <!-- Tombol akan dimasukkan di sini oleh setupPushNotification -->
-      </div>
-    </section>
+      <section class="container">
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <span id="profile-avatar-letter"></span>
+            </div>
+            <h2 id="profile-name"></h2>
+            <p id="profile-id" class="profile-id"></p>
+          </div>
+          <div class="profile-content">
+            <div class="profile-actions">
+              <button id="logout-button" class="logout-button">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="saved-stories-list-loading-container"></div>
+        <h2 class="subscribe-title">Subscribe to push notification : </h2>
+        <div id="push-notification-tools" class="push-notification-tools"></div>
+        <h1 class="section-title">Saved stories : </h1>
+        <div class="saved-stories-list__container">
+          <div id="saved-stories-list"></div>
+        </div>
+      </section>
     `;
+  }
+
+  async afterRender() {
+    await this.#presenter.init();
+
+    if (isServiceWorkerAvailable()) {
+      await this.#setupPushNotification();
+    }
+
+    this.#setupEventListeners();
+  }
+
+  showUserProfile(userData) {
+    document.getElementById("profile-avatar-letter").textContent = userData.name
+      .charAt(0)
+      .toUpperCase();
+    document.getElementById("profile-name").textContent = userData.name;
+    document.getElementById(
+      "profile-id"
+    ).textContent = `User ID: ${userData.id}`;
+  }
+
+  showLoading() {}
+
+  hideLoading() {}
+
+  showError(message) {
+    console.error(message);
+  }
+
+  #setupEventListeners() {
+    const logoutButton = document.getElementById("logout-button");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", () => {
+        this.#presenter.logout();
+      });
+    }
   }
 
   async #setupPushNotification() {
@@ -52,12 +118,6 @@ export default class ProfilePage {
           await subscribe();
           this.#setupPushNotification();
         });
-    }
-  }
-
-  async afterRender() {
-    if (isServiceWorkerAvailable()) {
-      await this.#setupPushNotification();
     }
   }
 }
