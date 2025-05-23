@@ -131,3 +131,20 @@ export async function unsubscribePushNotification({ endpoint }) {
     message: json.message,
   };
 }
+
+export async function getStoryDetail(id) {
+  const accessToken = getAccessToken();
+
+  const fetchResponse = await fetch(`${ENDPOINTS.STORIES}/${id}`, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  const json = await fetchResponse.json();
+
+  return {
+    error: json.error,
+    message: json.message,
+    data: json.story,
+  };
+}

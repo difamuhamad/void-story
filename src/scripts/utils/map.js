@@ -161,4 +161,53 @@ export default class Map {
     newMarker.addTo(this.#map);
     return newMarker;
   }
+
+  static async getPlaceNameByCoordinate(latitude, longitude) {
+    try {
+      const url = new URL(
+        `https://api.maptiler.com/geocoding/${longitude},${latitude}.json`
+      );
+      url.searchParams.set("key", MAP_SERVICE_API_KEY);
+      url.searchParams.set("language", "id");
+      url.searchParams.set("limit", "1");
+
+      const response = await fetch(url);
+      const json = await response.json();
+
+      if (!json.features || json.features.length === 0) {
+        throw new Error("No place found");
+      }
+
+      const placeName = json.features[0].place_name;
+      if (!placeName) {
+        throw new Error("No place_name in response");
+      }
+
+      // Get place name word (2 kata terakhir)
+      const place = placeName.split(" ");
+      return [place.at(-2), place.at(-1)].join(" ");
+    } catch (error) {
+      console.error("getPlaceNameByCoordinate error:", error);
+      return `${latitude}, ${longitude}`;
+    }
+  }
+}
+
+export async function storyMapper(story) {
+  const lat = story.lat ?? null;
+  const lon = story.lon ?? null;
+
+  let placeName = "Location not found";
+  if (lat !== null && lon !== null) {
+    placeName = await Map.getPlaceNameByCoordinate(lat, lon);
+  }
+
+  return {
+    ...story,
+    location: {
+      latitude: lat,
+      longitude: lon,
+      placeName: placeName,
+    },
+  };
 }

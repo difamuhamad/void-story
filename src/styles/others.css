@@ -221,3 +221,29 @@
     font-size: 1.75rem;
   }
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .story-detail__image {
+    height: 18rem;
+  }
+
+  .story-detail__more-info__inline {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .story-detail__body {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-detail__image {
+    height: 15rem;
+  }
+
+  .story-detail__actions__buttons {
+    flex-direction: column;
+  }
+}
